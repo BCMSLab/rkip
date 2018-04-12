@@ -13,22 +13,24 @@ tables_dir <- 'manuscript/tables'
 map(md, function(x) data.frame(nsample = nrow(x$data),
                                   ngenes = ncol(x$data))) %>%
   bind_rows(.id = 'study') %>%
+  mutate(study = gsub('_', '.', study)) %>%
   filter(study != 'ref') %>%
-  mutate(reference = c('Baca et al. Cell 2013',
-                       'Barbieri et al. Nat Genet 2012',
-                       'Kumar et al. Nat Med 2016',
-                       'Gao et al., Cell 2014',
-                       'Taylor et al. Cancer Cell 2010',
-                       'Robinson et al. Cell. 2015',
+  mutate(reference = c('\\cite{Baca2013PunctuatedGenomes}',
+                       '\\cite{Barbieri2012ExomeCancer}',
+                       '\\cite{Kumar2016SubstantialCancer}',
+                       '\\cite{Gao2014DeterministicNeocortex}',
+                       '\\cite{Taylor2010IntegrativeCancer}',
+                       '\\cite{Robinson2015IntegrativeCancer}',
                        'TCGA, Cell 2015',
                        'TCGA, Cell 2015')) %>%
   setNames(c('Study ID', 'Samples', 'Genes', 'Reference')) %>%
   xtable(caption = 'Studies of human prostate cancer subjects.',
-         align = 'clccl',
+         align = 'clccc',
          label = 'tab:datasets') %>%
   print(include.rownames = FALSE,
         booktabs = TRUE,
         caption.placement = 'top',
         table.placement = 'H',
         sanitize.text.function = identity,
+        comment = FALSE,
         file = paste(tables_dir, 'datasets.tex', sep = '/'))

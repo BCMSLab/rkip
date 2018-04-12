@@ -51,6 +51,7 @@ $(FIG_DIR)/%.png: $(FIG_SRC)/%.R $(DATA)/rkip_wgcna.rda
 #	dot -Tpng $(FIG_SRC)/workflow.dot -o $(FIG_DIR)/workflow.png
 
 # clean up
+.PHONY: clean
 clean:
-	test -f *.pdf && rm *.pdf || echo 'All clean.'
-	test -f *.RData && rm *.RData || echo 'All clean.'
+	rm -f *.pdf
+	rm -f *.RData

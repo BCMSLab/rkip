@@ -19,10 +19,11 @@ data_frame(term = c('epithelial to mesenchymal transition',
   summarise(genes = paste(unique(symbol), collapse = ', ')) %>%
   setNames(c('Term', 'Genes')) %>%
   xtable(caption = 'Gene members of the three gene ontology terms.',
-         align = 'clp{.6\\textwidth}',
+         align = 'cp{.3\\textwidth}p{.6\\textwidth}',
          label = 'tab:go_genes') %>%
   print(include.rownames = FALSE,
         booktabs = TRUE,
         caption.placement = 'top',
         table.placement = 'H',
+        comment = FALSE,
         file = paste(tables_dir, 'go_genes.tex', sep = '/'))

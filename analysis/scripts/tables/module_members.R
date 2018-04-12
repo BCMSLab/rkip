@@ -22,9 +22,10 @@ data_frame(term = c('epithelial to mesenchymal transition',
   spread(term, gene) %>%
   xtable(caption = 'Gene members in different modules/colors.',
          label = 'tab:module_members',
-         align = 'clp{.25\\textwidth}p{.25\\textwidth}p{.25\\textwidth}') %>%
+         align = 'clp{.4\\textwidth}p{.2\\textwidth}p{.25\\textwidth}') %>%
   print(include.rownames = FALSE,
         booktabs = TRUE,
         caption.placement = 'top',
         sanitize.text.function = identity,
+        comment = FALSE,
         file = paste(tables_dir, 'module_members.tex', sep = '/'))
