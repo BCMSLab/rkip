@@ -25,8 +25,42 @@ annotation_get(go_id, go_names, go_db, go_term, org_db, columns,
 \item{...}{Other arguments passed to select}
 }
 \value{
-A data.frame
+A data.frame of at least 6 columns
+\itemize{
+\item category The category/ies as in go_names
+\item go The GO ID/s as in go_id or their lower level components
+\item evidence The type of evidence for each gene product
+\item ontology The type of ontology (e.g. BP, MF and/or CC)
+\item (column/s) The query columns as in columns
+\item term The term corresponding to each GO ID
+}
+
+#' @examples
+\dontrun{
+# load required libraries
+library(org.Mm.eg.db)
+library(GO.db)
+
+# prepare query
+go_ids <- c('GO:0006914', 'GO:0004679')
+go_names <- c('autophagy', 'AMPK')
+go_db <- GOBPCHILDREN
+go_term <- GOTERM
+org_db <- org.Mm.eg.db
+columns <- 'SYMBOL'
+
+# call function
+ann <- annotation_get(go_ids,
+                      go_names,
+                      go_db,
+                      go_term,
+                      org_db,
+                      columns)
+}
 }
 \description{
-Get GO annotations
+Get Gene Ontology (GO) annotations is a tidy data.frame. This function is
+customized to extract the lower level GO IDs before finding the gene
+products associated with each ID. Finally, the term corresponding to each
+ID is added
 }

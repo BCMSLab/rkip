@@ -59,8 +59,9 @@ mc <- list(ref = mc)
 module_preserv <- modulePreservation(multiData = md,
                                      multiColor = mc,
                                      referenceNetworks = 9,
-                                     savePermutedStatistics = FALSE,
-                                     nPermutations = 5)
+                                     savePermutedStatistics = FALSE)
+
+string <- read_tsv('data/string_interactions.tsv')
 
 # clean and save
 rm(df, ind, mc, fls)

@@ -12,10 +12,21 @@ cna_run(dat, power)
 \item{power}{An integer power of the adjacency matrix}
 }
 \value{
-A list
+A list of 9 items:
+\itemize{
+\item adj A matrix, the adjacency matrix result of adjacency
+\item tom A matrix, the TOM similarity matrix result of TOMsimilarity
+\item diss A matrix, the dissimilary matrix (1 - tom)
+\item modules A numeric, the assignment of each column to a module after the cutting
+\item colors A character, the colors given to each integer in modules, result of labels2colors
+\item mes A data.frame, the eigengenes item of calling moduleEigengenes
+\item me_dist A matrix, the distance matrix (1 - mes)
+\item me_tree An hclust, the hierarchial clustering object of me_dist
+\item merged colors A character, the final lables after mergeCloseModules
+}
 }
 \description{
-Run WGCNA
+A wrapper to run WGCNA with certain options in a particular order
 }
 \examples{
 library(Biobase)

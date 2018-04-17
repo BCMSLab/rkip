@@ -7,15 +7,34 @@
 module_compare(index, level = 4, ...)
 }
 \arguments{
-\item{index}{A list}
+\item{index}{A list of items each is a set og gene IDs}
 
-\item{level}{An integer}
+\item{level}{An integer, the Gene Ontology}
 
 \item{...}{Other arguments passed to compareCluster}
 }
 \value{
-A data.frame
+A data.frame as in the slot compareClusterResult
 }
 \description{
-Compare enrichment by modules
+Awrapper to run comparCluster, gofiler and extract results
+}
+\examples{
+\dontrun{
+# load required libraries
+library(org.Mm.eg.db)
+
+# make an index of gene sets
+ind <- list(blue = c("Acbd5", "Atg5", "Atm", "Bmf"),
+            brown = c("Atg4c", "Il3", "Lamp3", "Lepr", "Mefv"))
+
+# run comparison
+module_compare(ind,
+               fun = 'enrichGO',
+               OrgDb = org.Mm.eg.db,
+               keyType = 'SYMBOL',
+               ont = 'MF',
+               pAdjustMethod = 'fdr')
+}
+
 }

@@ -16,10 +16,14 @@ metadata_get(eset, col_name, new_name, type = "phenotype")
 \item{type}{A character string (default 'phenotype')}
 }
 \value{
-A data.frame
+A data.frame always contains a column for each col_name with the
+name in new_name. When type is 'phenotype', row.names are the samples,
+and when type is 'features', row.names are the feature IDs/probes
 }
 \description{
-Get metadata from ExpressionSet
+Get the metadata associated with an ExpressionSet object. This could be
+the phenotype or the features data. In either cases the functions uses
+the standard bioconductor accessor with some formating
 }
 \examples{
 library(Biobase)

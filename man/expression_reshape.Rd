@@ -14,10 +14,11 @@ expression_reshape(mat, log = FALSE, zero_neg = FALSE)
 \item{zero_neg}{A logical (default, FALSE) to zero all negative values}
 }
 \value{
-A list with one data.frame slot, data contains the transposed matrix
+A list with one data.frame item, data contains the transposed matrix.
+This is the genes in column and samples in rows
 }
 \description{
-Reshape data for WGCNA
+Reshap an expression matrix to the format required by WGCNA
 }
 \examples{
 library(Biobase)

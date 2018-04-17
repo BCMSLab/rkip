@@ -67,4 +67,12 @@ imap(study_profile, function(x, .y) {
                  geneticProfiles = x,
                  caseList = paste(.y, 'all', sep = '_')) %>%
     write_tsv(path = paste('data/', .y, '.tsv', sep = ''))
+  return(NULL)
 })
+
+# get string interacitons
+df <- interactions_get(data.frame(symbol = unique(ann$symbol)),
+                       input_directory = 'data/',
+                       species = 9606,
+                       evidence = TRUE)
+write_tsv(df, 'data/string_interactions.tsv')

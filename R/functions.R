@@ -1,5 +1,10 @@
 #' Get GO annotations
 #'
+#' Get Gene Ontology (GO) annotations is a tidy data.frame. This function is
+#' customized to extract the lower level GO IDs before finding the gene
+#' products associated with each ID. Finally, the term corresponding to each
+#' ID is added
+#'
 #' @param go_id A character vector of GO IDs
 #' @param go_names A character vector of GO category names
 #' @param go_db A GO.db object
@@ -9,10 +14,41 @@
 #' @param remove_predicted A logical (default, TRUE) for removing predicted genes
 #' @param ... Other arguments passed to select
 #'
-#' @return A data.frame
+#' @return A data.frame of at least 6 columns
+#' \itemize{
+#' \item category The category/ies as in go_names
+#' \item go The GO ID/s as in go_id or their lower level components
+#' \item evidence The type of evidence for each gene product
+#' \item ontology The type of ontology (e.g. BP, MF and/or CC)
+#' \item (column/s) The query columns as in columns
+#' \item term The term corresponding to each GO ID
+#' }
+#'
+#' #' @examples
+#' \dontrun{
+#' # load required libraries
+#' library(org.Mm.eg.db)
+#' library(GO.db)
+#'
+#' # prepare query
+#' go_ids <- c('GO:0006914', 'GO:0004679')
+#' go_names <- c('autophagy', 'AMPK')
+#' go_db <- GOBPCHILDREN
+#' go_term <- GOTERM
+#' org_db <- org.Mm.eg.db
+#' columns <- 'SYMBOL'
+#'
+#' # call function
+#' ann <- annotation_get(go_ids,
+#'                       go_names,
+#'                       go_db,
+#'                       go_term,
+#'                       org_db,
+#'                       columns)
+#' }
 #'
 #' @importFrom purrr map possibly
-#' @importFrom AnnotationDbi select mget Term
+#' @importFrom AnnotationDbi mget Term
 #' @importFrom dplyr bind_rows filter mutate
 #' @importFrom magrittr %>%
 #'
@@ -35,9 +71,9 @@ annotation_get <- function(go_id, go_names, go_db, go_term, org_db, columns, rem
   # get annotation columns
   df <- map(ids, function(x) {
     AnnotationDbi::select(org_db,
-                          x,
-                          columns,
-                          'GO')
+           x,
+           columns,
+           'GO')
   }) %>%
     bind_rows(.id = 'category') %>%
     na.omit()
@@ -57,64 +93,16 @@ annotation_get <- function(go_id, go_names, go_db, go_term, org_db, columns, rem
   return(df)
 }
 
-#' Subset an ExpressionSet
-#'
-#' @param eset An ExpressionSet object
-#' @param byrow A logical vector masking rows of eset
-#' @param bycol A logical vector masking columns of eset
-#' @param collapse_rows A logical (default FALSE)
-#' @param ... Other arguments passed to collapse_rows
-#'
-#' @return A tidy expression matrix
-#'
-#' @examples
-#' library(Biobase)
-#' data("sample.ExpressionSet")
-#'
-#' pd <- pData(sample.ExpressionSet)
-#'
-#' set.seed(123)
-#' byrow <- sample(c(TRUE, FALSE), nrow(sample.ExpressionSet), replace = TRUE)
-#' bycol <- pd$sex == 'Female'
-#'
-#' expression_subset(sample.ExpressionSet, byrow, bycol)
-#'
-#' @importFrom Biobase exprs
-#' @importFrom WGCNA collapseRows
-#'
-#' @export
-expression_subset <- function(eset, byrow, bycol, collapse_rows=FALSE, ...) {
-
-  if(missing(byrow)) byrow <- TRUE
-  if(missing(bycol)) bycol <- TRUE
-
-  if(nrow(eset) != length(byrow) & byrow != TRUE) stop('byrow needs to be same length as nrow(eset).')
-  if(ncol(eset) != length(bycol) & bycol != TRUE) stop('bycol needs to be same length as ncol(eset).')
-
-  e <- eset[byrow, bycol]
-  mat <- exprs(e)
-
-  if(collapse_rows == TRUE) {
-    #if(missing(rowGroup)) stop('rowGroup is required for collapse Rows.')
-    #if(missing(rowID)) stop('rowID is required for collapse Rows.')
-
-    #if(length(rowGroup) != length(rowID)) stop('rowGroup and rowID need to be of same length.')
-
-    collapsed_mat <- collapseRows(mat, ...)
-    mat <- collapsed_mat[[1]]
-  }
-  if(sum(duplicated(rownames(mat)))) warning('matrix rows are not unique')
-
-  return(mat)
-}
-
 #' Reshape data for WGCNA
+#'
+#' Reshap an expression matrix to the format required by WGCNA
 #'
 #' @param mat A numeric expression matrix
 #' @param log A logical (default, FALSE) to take the log matrix
 #' @param zero_neg A logical (default, FALSE) to zero all negative values
 #'
-#' @return A list with one data.frame slot, data contains the transposed matrix
+#' @return A list with one data.frame item, data contains the transposed matrix.
+#' This is the genes in column and samples in rows
 #'
 #' @examples
 #' library(Biobase)
@@ -140,12 +128,18 @@ expression_reshape <- function(mat, log = FALSE, zero_neg = FALSE) {
 
 #' Get metadata from ExpressionSet
 #'
+#' Get the metadata associated with an ExpressionSet object. This could be
+#' the phenotype or the features data. In either cases the functions uses
+#' the standard bioconductor accessor with some formating
+#'
 #' @param eset An ExpressionSet object
 #' @param col_name A character vector of columns in the metadata
 #' @param new_name A character string of the new names of the columns
 #' @param type A character string (default 'phenotype')
 #'
-#' @return A data.frame
+#' @return A data.frame always contains a column for each col_name with the
+#' name in new_name. When type is 'phenotype', row.names are the samples,
+#' and when type is 'features', row.names are the feature IDs/probes
 #'
 #' @examples
 #' library(Biobase)
@@ -181,10 +175,23 @@ metadata_get <- function(eset, col_name, new_name, type = 'phenotype') {
 
 #' Run WGCNA
 #'
+#' A wrapper to run WGCNA with certain options in a particular order
+#'
 #' @param dat A data.frame of transposed expression matrix
 #' @param power An integer power of the adjacency matrix
 #'
-#' @return A list
+#' @return A list of 9 items:
+#' \itemize{
+#' \item adj A matrix, the adjacency matrix result of adjacency
+#' \item tom A matrix, the TOM similarity matrix result of TOMsimilarity
+#' \item diss A matrix, the dissimilary matrix (1 - tom)
+#' \item modules A numeric, the assignment of each column to a module after the cutting
+#' \item colors A character, the colors given to each integer in modules, result of labels2colors
+#' \item mes A data.frame, the eigengenes item of calling moduleEigengenes
+#' \item me_dist A matrix, the distance matrix (1 - mes)
+#' \item me_tree An hclust, the hierarchial clustering object of me_dist
+#' \item merged colors A character, the final lables after mergeCloseModules
+#' }
 #'
 #' @examples
 #' library(Biobase)
@@ -239,11 +246,31 @@ cna_run <- function(dat, power) {
 
 #' Compare enrichment by modules
 #'
-#' @param index A list
-#' @param level An integer
+#' Awrapper to run comparCluster, gofiler and extract results
+#'
+#' @param index A list of items each is a set og gene IDs
+#' @param level An integer, the Gene Ontology
 #' @param ... Other arguments passed to compareCluster
 #'
-#' @return A data.frame
+#' @return A data.frame as in the slot compareClusterResult
+#'
+#' @examples
+#' \dontrun{
+#' # load required libraries
+#' library(org.Mm.eg.db)
+#'
+#' # make an index of gene sets
+#' ind <- list(blue = c("Acbd5", "Atg5", "Atm", "Bmf"),
+#'             brown = c("Atg4c", "Il3", "Lamp3", "Lepr", "Mefv"))
+#'
+#' # run comparison
+#' module_compare(ind,
+#'                fun = 'enrichGO',
+#'                OrgDb = org.Mm.eg.db,
+#'                keyType = 'SYMBOL',
+#'                ont = 'MF',
+#'                pAdjustMethod = 'fdr')
+#' }
 #'
 #' @importFrom clusterProfiler compareCluster gofilter
 #'
@@ -255,53 +282,59 @@ module_compare <- function(index, level = 4, ...) {
 }
 #' Get STRING interactions
 #'
+#' A wrapper to get STRING interactions in a nice format
+#'
 #' @param genes A data.frame of at least one column of gene sybols
 #' @param evidence A logical (default FALSE) of whether to include the evidence
 #' @param ... Other arguments passed to new
 #'
-#' @return A data.frame
+#' @return A data.frame of at least two columns in the form of a edgelist with
+#' an additional column, evidence when evidence is TRUE
+#'
+#' @examples
+#' \dontrun{
+#' genes = c("Atg4c", "Il3", "Lamp3", "Lepr", "Mefv")
+#' interactions_get(genes)
+#' }
 #'
 #' @import STRINGdb
 #' @importFrom readr read_delim cols_only
-#' @importFrom dplyr select inner_join starts_with filter
+#' @importFrom dplyr inner_join starts_with filter
 #' @importFrom tidyr gather
 #' @importFrom stats na.omit setNames
 #' @importFrom magrittr %>%
 #'
 #' @export
-interactions_get <- function(genes, input_directory, evidence = FALSE, ...) {
-
-  fl <- list.files(input_directory, pattern = 'protein_links.tsv.gz', full.names = TRUE)
+interactions_get <- function(genes, evidence = FALSE, ...) {
 
   ptn <- list()
-  ptn$new <- STRINGdb$new(input_directory = input_directory, ...)
-  ptn$string_mapped <- ptn$new$map(genes, 'symbol', removeUnmappedRows = TRUE)
+  ptn$new <- STRINGdb$new(...)
+  ptn$string_mapped <- ptn$new$map(genes,
+                                   'symbol',
+                                   removeUnmappedRows = TRUE)
   ptn$string_ids <- ptn$string_mapped$STRING_id
-
-  if(!file.exists(fl)) {
-    ptn$new$get_interactions(ptn$string_ids)
-  }
+  ptn$interactions <- ptn$new$get_interactions(ptn$string_ids)
 
   if(evidence == TRUE) {
-    ptn$interactions <- read_delim(fl, delim = ' ')
-
     df <- ptn$interactions %>%
-      inner_join(ptn$string_mapped, by = c('protein1' = 'STRING_id')) %>%
-      inner_join(ptn$string_mapped, by = c('protein2' = 'STRING_id')) %>%
-      na.omit() %>%
-      select(-starts_with('protein'), -starts_with('color')) %>%
-      gather(evidence, value, -starts_with('symbol')) %>%
+      inner_join(ptn$string_mapped,
+                 by = c(from = "STRING_id")) %>%
+      inner_join(ptn$string_mapped,
+                 by = c(to = "STRING_id")) %>% na.omit() %>%
+      dplyr::select(-from, -to, -starts_with("color")) %>%
+      gather(evidence, value, -starts_with("symbol")) %>%
       filter(value != 0) %>%
-      setNames(c('from', 'to', 'evidence', 'value'))
+      setNames(c("from", "to", "evidence", "value"))
   } else {
-    ptn$interactions <- read_delim(fl, delim = ' ',
-                                   col_types = cols_only(protein1 = 'c', protein2 = 'c'))
     df <- ptn$interactions %>%
-      inner_join(ptn$string_mapped, by = c('protein1' = 'STRING_id')) %>%
-      inner_join(ptn$string_mapped, by = c('protein2' = 'STRING_id')) %>%
+      dplyr::select(from, to) %>%
+      inner_join(ptn$string_mapped,
+                 by = c(from = "STRING_id")) %>%
+      inner_join(ptn$string_mapped,
+                 by = c(to = "STRING_id")) %>%
       na.omit() %>%
-      select(starts_with('symbol')) %>%
-      setNames(c('from', 'to'))
+      dplyr::select(starts_with("symbol")) %>%
+      setNames(c("from", "to"))
   }
   return(df)
 }
@@ -309,10 +342,12 @@ interactions_get <- function(genes, input_directory, evidence = FALSE, ...) {
 
 #' Make graph object of module members
 #'
+#' Make undirected graphs of a list of modules
+#'
 #' @param modules A list of module members
 #' @param edge_list An edge list of the members connections
 #'
-#' @return A list of graph objects
+#' @return A list of igraph objects
 #'
 #' @importFrom purrr map
 #' @importFrom igraph graph_from_data_frame subgraph V
@@ -328,10 +363,20 @@ module_network <- function(modules, edge_list) {
 
 #' Calculate member importance in a graph
 #'
+#' Calculate several centrality measures on the graphs
+#'
 #' @param gs A list of graph objects
 #' @param measure A character string of the centrality measure
 #'
-#' @return A data.frame
+#' @return A data.frame. When measure is 'all'
+#' \dontrun{
+#' \item module The names in modules
+#' \item names The names of the entries in modules
+#' \item degree The degree centrality of each node, as in centr_degree
+#' \item betweenness The betweennes centrality of each node, as in centr_betw
+#' \item closeness The closeness centrality of each node, as in centr_clo
+#' \item hub The hub score of each node, as in hub_score
+#' }
 #'
 #' @importFrom purrr map
 #' @importFrom dplyr bind_rows
@@ -346,7 +391,7 @@ member_importance <- function(gs, measure = 'all') {
          closeness = centr_clo(g, normalized = TRUE)$res,
          hub = hub_score(g)$vector) %>%
       bind_rows()
-  }) %>%
+      }) %>%
     bind_rows(.id = 'module')
 }
 
@@ -355,7 +400,13 @@ member_importance <- function(gs, measure = 'all') {
 #' @param dat A data.frame of transposed expression matrix
 #' @param measure A character string of the similarity measure
 #'
-#' @return A data.fame
+#' @return A data.fame. When measure is 'all'
+#' \itemize{
+#' \item x1 A gene ID
+#' \item x2 A gene ID, as in edge list (x1 --> x2)
+#' \item value The value of the measure
+#' \item measure either Adjacency, TOM or Pearson
+#' }
 #'
 #' @importFrom WGCNA adjacency TOMsimilarity cor
 #' @importFrom reshape2 melt

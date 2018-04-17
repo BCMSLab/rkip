@@ -12,7 +12,13 @@ member_similarity(dat, measure = "all")
 \item{measure}{A character string of the similarity measure}
 }
 \value{
-A data.fame
+A data.fame. When measure is 'all'
+\itemize{
+\item x1 A gene ID
+\item x2 A gene ID, as in edge list (x1 --> x2)
+\item value The value of the measure
+\item measure either Adjacency, TOM or Pearson
+}
 }
 \description{
 Calculate pair-wise similarity in an expresison matrix

@@ -12,8 +12,8 @@ module_network(modules, edge_list)
 \item{edge_list}{An edge list of the members connections}
 }
 \value{
-A list of graph objects
+A list of igraph objects
 }
 \description{
-Make graph object of module members
+Make undirected graphs of a list of modules
 }
