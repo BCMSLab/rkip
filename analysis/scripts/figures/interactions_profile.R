@@ -24,23 +24,24 @@ expr <- mat[ind,] %>%
 corr <- cor(t(mat[ind,])) %>%
   melt %>%
   filter(Var1 == 'PEBP1') %>%
-  select(Var2, value) %>%
+  dplyr::select(Var2, value) %>%
   setNames(c('gene', 'corr'))
 
 pval <- corPvalueStudent(cor(t(mat[ind,])), ncol(mat)) %>%
   melt %>%
   filter(Var1 == 'PEBP1') %>%
-  select(Var2, value) %>%
+  dplyr::select(Var2, value) %>%
   setNames(c('gene', 'pval'))
 
 weights <- exportNetworkToVisANT(net$adj, threshold = .1) %>%
   filter(from == 'PEBP1') %>%
-  select(to, weight) %>%
+  dplyr::select(to, weight) %>%
   setNames(c('gene', 'weight'))
 
 (left_join(expr, corr) %>%
   left_join(pval) %>%
   left_join(weights) %>%
+  filter(gene != 'PEBP1') %>%
   mutate(pval = ifelse(pval < .01, '< 0.01', as.character(round(pval, 2)))) %>%
   ggplot(aes(x = '', y = expr, color = disease, group = disease)) +
   geom_point(position=position_dodge(width=0.7), aes(y=ave)) +

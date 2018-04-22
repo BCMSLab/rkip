@@ -14,7 +14,7 @@ figures_dir = 'manuscript/figures'
 (module_preserv$quality$observed$ref.ref[-9] %>%
     map(rownames_to_column, var = 'color') %>%
     bind_rows(.id = 'study') %>%
-    mutate(gse = str_split(study, '\\.', simplify = TRUE)[, 2]) %>%
+    mutate(study = str_split(study, '\\.', simplify = TRUE)[, 2]) %>%
     ggplot(aes(x = moduleSize, y = medianRank.qual, color = color)) +
     geom_point() +
     facet_wrap(~study, nrow = 2) +

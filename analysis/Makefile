@@ -11,7 +11,7 @@ TAB_DIR=manuscript/tables
 DATA=data
 LOG=log
 
-all: $(DATA)/*.tsv $(DATA)/rkip_wgcna.rda $(FIG_DIR)/* $(TAB_DIR)/* clean
+all: $(LOG)/get_data.R.Rout $(DATA)/rkip_wgcna.rda $(FIG_DIR)/* $(TAB_DIR)/* clean
 
 # install/update the functions
 install:
@@ -26,7 +26,7 @@ dir_tree:
 	test ! -d $(FIG_DIR) && mkdir $(FIG_DIR) || echo '$(FIG_DIR)/ is already there.'
 
 # get data
-$(DATA)/%.tsv: $(SCRIPTS)/get_data.R
+$(LOG)/get_data.R.Rout: $(SCRIPTS)/get_data.R
 	R CMD BATCH $(R_OPT) $< $(LOG)/$(<F).Rout
 
 # run the main part of the analysis
