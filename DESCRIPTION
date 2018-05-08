@@ -4,7 +4,8 @@ Title: Gene co-expression analysis of RKIP, autophagy and EMT in prostate cancer
 Version: 0.1.0
 Author: Mahmoud Ahmed
 Maintainer: Mahmoud Ahmed <mahmoud.s.fahmy@students.kasralainy.edu.eg>
-Description: A reproducibe study compondium of the analysis of RKIP, autophagy and EMT in prostate cancer.
+Description: A reproducibe study compondium of the analysis of RKIP, autophagy 
+and EMT in prostate cancer.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

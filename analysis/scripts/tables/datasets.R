@@ -21,8 +21,8 @@ map(md, function(x) data.frame(nsample = nrow(x$data),
                        '\\cite{Gao2014DeterministicNeocortex}',
                        '\\cite{Taylor2010IntegrativeCancer}',
                        '\\cite{Robinson2015IntegrativeCancer}',
-                       'TCGA, Cell 2015',
-                       'TCGA, Cell 2015')) %>%
+                       '\\cite{CancerGenomeAtlasResearchNetwork2015TheCancer.}',
+                       '\\cite{CancerGenomeAtlasResearchNetwork2015TheCancer.}')) %>%
   setNames(c('Study ID', 'Samples', 'Genes', 'Reference')) %>%
   xtable(caption = 'Studies of human prostate cancer subjects.',
          align = 'clccc',

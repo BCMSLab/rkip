@@ -9,7 +9,6 @@ load('data/rkip_wgcna.rda')
 # global variables
 figures_dir = 'manuscript/figures'
 
-
 # generate figure
 
 (plot_grid(sft$fitIndices %>%
