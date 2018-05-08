@@ -24,7 +24,7 @@
 #' \item term The term corresponding to each GO ID
 #' }
 #'
-#' #' @examples
+#' @examples
 #' \dontrun{
 #' # load required libraries
 #' library(org.Mm.eg.db)
@@ -303,6 +303,7 @@ module_compare <- function(index, level = 4, ...) {
 #' @importFrom tidyr gather
 #' @importFrom stats na.omit setNames
 #' @importFrom magrittr %>%
+#' }
 #'
 #' @export
 interactions_get <- function(genes, evidence = FALSE, ...) {
@@ -369,6 +370,8 @@ module_network <- function(modules, edge_list) {
 #' @param measure A character string of the centrality measure
 #'
 #' @return A data.frame. When measure is 'all'
+#'
+#' @examples
 #' \dontrun{
 #' \item module The names in modules
 #' \item names The names of the entries in modules

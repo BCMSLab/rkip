@@ -34,8 +34,14 @@ A data.frame of at least 6 columns
 \item (column/s) The query columns as in columns
 \item term The term corresponding to each GO ID
 }
-
-#' @examples
+}
+\description{
+Get Gene Ontology (GO) annotations is a tidy data.frame. This function is
+customized to extract the lower level GO IDs before finding the gene
+products associated with each ID. Finally, the term corresponding to each
+ID is added
+}
+\examples{
 \dontrun{
 # load required libraries
 library(org.Mm.eg.db)
@@ -57,10 +63,5 @@ ann <- annotation_get(go_ids,
                       org_db,
                       columns)
 }
-}
-\description{
-Get Gene Ontology (GO) annotations is a tidy data.frame. This function is
-customized to extract the lower level GO IDs before finding the gene
-products associated with each ID. Finally, the term corresponding to each
-ID is added
+
 }

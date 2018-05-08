@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^analysis/$
 ^docker/$
+^\.travis\.yml$
+^codecov\.yml$

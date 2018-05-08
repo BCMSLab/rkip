@@ -13,15 +13,18 @@ member_importance(gs, measure = "all")
 }
 \value{
 A data.frame. When measure is 'all'
-\dontrun{
-\item module The names in modules
-\item names The names of the entries in modules
-\item degree The degree centrality of each node, as in centr_degree
-\item betweenness The betweennes centrality of each node, as in centr_betw
-\item closeness The closeness centrality of each node, as in centr_clo
-\item hub The hub score of each node, as in hub_score
-}
 }
 \description{
 Calculate several centrality measures on the graphs
+}
+\examples{
+\dontrun{
+\\item module The names in modules
+\\item names The names of the entries in modules
+\\item degree The degree centrality of each node, as in centr_degree
+\\item betweenness The betweennes centrality of each node, as in centr_betw
+\\item closeness The closeness centrality of each node, as in centr_clo
+\\item hub The hub score of each node, as in hub_score
+}
+
 }
