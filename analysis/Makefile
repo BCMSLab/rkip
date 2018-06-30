@@ -11,7 +11,27 @@ TAB_DIR=manuscript/tables
 DATA=data
 LOG=log
 
-all: $(LOG)/get_data.R.Rout $(DATA)/rkip_wgcna.rda $(FIG_DIR)/* $(TAB_DIR)/* clean
+all: install \
+	dir_tree \
+	$(LOG)/get_data.R.Rout \
+	$(DATA)/rkip_wgcna.rda \
+	$(FIG_DIR)/colocalization.png \
+	$(FIG_DIR)/common_regulation.png \
+	$(FIG_DIR)/gene_membership.png \
+	$(FIG_DIR)/images.png \
+	$(FIG_DIR)/interactions_profile.png \
+	$(FIG_DIR)/module_cor.png \
+	$(FIG_DIR)/network.png \
+	$(FIG_DIR)/pebp1_level.png \
+	$(FIG_DIR)/preservation_ranks.png \
+	$(FIG_DIR)/preservation_zsummary.png \
+	$(FIG_DIR)/sft_power.png \
+	$(TAB_DIR)/datasets.tex \
+	$(TAB_DIR)/go_genes.tex \
+	$(TAB_DIR)/module_members.tex \
+	$(TAB_DIR)/peb_interactions.tex \
+	$(TAB_DIR)/previously_reported.tex \
+	clean
 
 # install/update the functions
 install:
@@ -32,11 +52,6 @@ $(LOG)/get_data.R.Rout: $(SCRIPTS)/get_data.R
 # run the main part of the analysis
 $(DATA)/rkip_wgcna.rda: $(SCRIPTS)/analysis.R
 	R CMD BATCH $(R_OPT) $< $(LOG)/$(<F).Rout
-
-# initiat files
-initiat_files:
-	for f in `ls $(FIG_SRC) | cut -d '.' -f1`; do echo test ! -e $(FIG_DIR)/$$f.png && touch $(FIG_DIR)/$$f.png; done;
-	for f in `ls $(TAB_SRC) | cut -d '.' -f1`; do echo test ! -e $(TAB_DIR)/$$f.tex && touch $(TAB_DIR)/$$f.tex; done;
 
 # generate tables
 $(TAB_DIR)/%.tex: $(TAB_SRC)/%.R $(DATA)/rkip_wgcna.rda
