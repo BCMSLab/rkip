@@ -3,7 +3,7 @@
 
 # rkip
 
-Data, analysis scripts and output of the analysis of the RKIP, autophagy and EMT coexpression in differentiating adipocytes.
+Data, analysis scripts and output of the analysis of the RKIP, autophagy and EMT coexpression in developing prostate cancer.
 
 ## Setting up the docker environment
 
@@ -16,7 +16,7 @@ $ docker run -it mahshaaban/analysis_containers:bioc_wgcna bash
 
 ## Obtaining the source code
 
-The source code is hosted publicly on this repository in a form of research compendium. This includes the functions used throughout the analysis as an R package, the scripts to run the analysis and finally the scripts to reproduce the figures and tables in this manuscript. From within the container, [git](https://git-scm.com) can be used to cloned the source code. The cloned repository contains a sub-folder called `analysis/scripts` which can be used to reproduce the analysis from scratch
+The source code is hosted publicly on this repository in a form of research compendium. This includes the functions used throughout the analysis as an R package, the scripts to run the analysis and finally the scripts to reproduce the figures and tables in this manuscript. From within the container, [git](https://git-scm.com) can be used to cloned the source code. The cloned repository contains a sub-folder called `analysis/scripts/` which can be used to reproduce the analysis from scratch
 
 * `get_data.R` This scripts download several datasets from different sources in preparation of the analysis
 
