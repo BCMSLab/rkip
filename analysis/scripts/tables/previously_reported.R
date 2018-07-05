@@ -22,6 +22,9 @@ full_join(df, string) %>%
   group_by(category, evidence) %>%
   summarise(gene = paste(unique(to), collapse = ', ')) %>%
   ungroup() %>%
+  mutate(category = case_when(category == 'autophagy' ~ 'Autophagy',
+                              category == 'emt' ~ 'EMT',
+                              category == 'pebp' ~ 'PEB')) %>%
   mutate(category = ifelse(duplicated(category), '', category)) %>%
   setNames(c('Category', 'Evidence', 'Gene')) %>%
   xtable(caption = 'Summary of previously reported and novel PEBP1 interactions.',

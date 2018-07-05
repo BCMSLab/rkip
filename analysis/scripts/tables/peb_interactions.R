@@ -15,11 +15,14 @@ exportNetworkToVisANT(net$adj, threshold = .1) %>%
   left_join(genes, by = c('to'='symbol')) %>%
   left_join(ann, by = c('to'='symbol')) %>%
   filter(category != 'pebp') %>%
+  mutate(from = paste('\\emph{', from, '}', sep = ''),
+         to = paste('\\emph{', to, '}', sep = '')) %>%
   group_by(color, from, category) %>%
   summarise(gene = paste(unique(to), collapse = ', ')) %>%
   spread(category, gene) %>%
   ungroup() %>%
   mutate(color = ifelse(duplicated(color), '', color)) %>%
+  setNames(c('Module', 'PEB', 'Autophagy', 'EMT')) %>%
   xtable(caption = 'PEB interactions with autophagy and EMT.',
          label = 'tab:peb_interactions',
          align = 'cllp{.4\\textwidth}p{.3\\textwidth}') %>%
@@ -30,4 +33,3 @@ exportNetworkToVisANT(net$adj, threshold = .1) %>%
         sanitize.text.function = identity,
         comment = FALSE,
         file = paste(tables_dir, 'peb_interactions.tex', sep = '/'))
-

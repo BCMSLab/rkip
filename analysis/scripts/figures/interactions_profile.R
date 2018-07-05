@@ -46,12 +46,11 @@ weights <- exportNetworkToVisANT(net$adj, threshold = .1) %>%
   ggplot(aes(x = '', y = expr, color = disease, group = disease)) +
   geom_point(position=position_dodge(width=0.7), aes(y=ave)) +
   geom_errorbar(position=position_dodge(width=0.7), aes(ymin = low, ymax = upper)) +
-  geom_text(aes(y = 4, label = round(weight, 2)), color = 'black') +
   geom_text(aes(y = 3, label = round(corr, 2)), color = 'black') +
   geom_text(aes(y = 2, label = pval), color = 'black') +
   scale_y_continuous(limits = c(2,14),
-                     breaks = c(2, 3,4,5,7.5,10,12.5),
-                     labels = c('p-value', "Pearson's", 'weight',5,7.5,10,12.5),
+                     breaks = c(2, 3,5,7.5,10,12.5),
+                     labels = c('p-value', "Pearson's", 5,7.5,10,12.5),
                      name = 'Log expression') +
   facet_wrap(~gene, nrow = 1) +
   theme_bw() +

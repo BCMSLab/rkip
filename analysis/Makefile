@@ -11,14 +11,13 @@ TAB_DIR=manuscript/tables
 DATA=data
 LOG=log
 
-all: install \
-	dir_tree \
+all: dir_tree \
 	$(LOG)/get_data.R.Rout \
 	$(DATA)/rkip_wgcna.rda \
 	$(FIG_DIR)/colocalization.png \
+	$(FIG_DIR)/colocalization_supp.png \
 	$(FIG_DIR)/common_regulation.png \
 	$(FIG_DIR)/gene_membership.png \
-	$(FIG_DIR)/images.png \
 	$(FIG_DIR)/interactions_profile.png \
 	$(FIG_DIR)/module_cor.png \
 	$(FIG_DIR)/network.png \
