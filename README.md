@@ -1,5 +1,5 @@
-[![Travis-CI Build Status](https://travis-ci.org/BCMSLab/rkip.svg?branch=master)](https://travis-ci.org/BCMSLab/rkip)
-[![Coverage Status](https://img.shields.io/codecov/c/github/BCMSLab/rkip/master.svg)](https://codecov.io/github/BCMSLab/rkip?branch=master)
+[![Travis-CI Build Status](https://travis-ci.org/MahShaaban/rkip.svg?branch=master)](https://travis-ci.org/MahShaaban/rkip)
+[![Coverage Status](https://img.shields.io/codecov/c/github/MahShaaban/rkip/master.svg)](https://codecov.io/github/MahShaaban/rkip?branch=master)
 
 # rkip
 
