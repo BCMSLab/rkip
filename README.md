@@ -1,5 +1,5 @@
-[![Travis-CI Build Status](https://travis-ci.org/MahShaaban/rkip.svg?branch=master)](https://travis-ci.org/MahShaaban/rkip)
-[![Coverage Status](https://img.shields.io/codecov/c/github/MahShaaban/rkip/master.svg)](https://codecov.io/github/MahShaaban/rkip?branch=master)
+[![Travis-CI Build Status](https://travis-ci.org/BCMSLab/rkip.svg?branch=master)](https://travis-ci.org/BCMSLab/rkip)
+[![Coverage Status](https://img.shields.io/codecov/c/github/BCMSLab/rkip/master.svg)](https://codecov.io/github/BCMSLab/rkip?branch=master)
 
 # rkip
 
@@ -7,11 +7,11 @@ Data, analysis scripts and output of the analysis of the RKIP, autophagy and EMT
 
 ## Setting up the docker environment
 
-The analysis was run on a [docker](https://hub.docker.com/r/mahshaaban/analysis_containers/) image based on the the latest **bioconductor/release\_base2**. Other R packages were added to the image and were made available as an image that can be obtained and launched on any local machine running [docker](https://hub.docker.com/r/mahshaaban/analysis_containers/).
+The analysis was run on a [docker](https://hub.docker.com/r/bcmslab/bioc_wgcna/) image based on the the latest **bioconductor/release\_base2**. Other R packages were added to the image and were made available as an image that can be obtained and launched on any local machine running [docker](https://hub.docker.com/r/bcmslab/bioc_wgcna/).
 
 ```bash
-$ docker pull mahshaaban/analysis_containers:bioc_wgcna
-$ docker run -it mahshaaban/analysis_containers:bioc_wgcna bash
+$ docker pull bcmslab/bioc_wgcna:20180630
+$ docker run -it bcmslab/bioc_wgcna:20180630 bash
 ```
 
 ## Obtaining the source code
@@ -29,7 +29,7 @@ The source code is hosted publicly on this repository in a form of research comp
 The following code clones the repository containing the source code.
 
 ```bash
-$ git clone http://github.com/MahShaaban/rkip
+$ git clone http://github.com/BCMSLab/rkip
 ```
 
 ## Running the analysis

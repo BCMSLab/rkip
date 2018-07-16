@@ -29,7 +29,7 @@ if(!file.exists('data/coloc.csv')) {
                 destfile = 'data/coloc.csv')
 }
 df <- read_csv('data/coloc.csv') %>%
-  setNames(c('symbol', "Pearson's", "Mander's (M1)", "Mander's (M2)"))
+  setNames(c('symbol', "Pearson's", "Manders (M1)", "Manders (M2)"))
 
 g2 <- df %>%
   gather(type, value, -symbol) %>%

@@ -5,10 +5,10 @@ library(ggimage)
 library(cowplot)
 
 # load data
-#if(!file.exists('data/image.png')) {
-#  download.file('https://ndownloader.figshare.com/files/12293744',
-#                destfile = 'data/image.png')
-#}
+if(!file.exists('data/image_supp.png')) {
+  download.file('https://ndownloader.figshare.com/files/12299936',
+                destfile = 'data/image_supp.png')
+}
 
 g1 <- data_frame(image = 'data/image_supp.png') %>%
   ggplot() +
@@ -24,13 +24,13 @@ g1 <- data_frame(image = 'data/image_supp.png') %>%
         axis.text = element_text(size = 9),
         axis.line = element_blank())
 
-#if(!file.exists('data/coloc.csv')) {
-#  download.file('https://ndownloader.figshare.com/files/12293747',
-#                destfile = 'data/coloc_supp.csv')
-#}
+if(!file.exists('data/coloc_supp.csv')) {
+  download.file('https://ndownloader.figshare.com/files/12302144',
+                destfile = 'data/coloc_supp.csv')
+}
 
 df <- read_csv('data/coloc_supp.csv') %>%
-  setNames(c('symbol', "Pearson's", "Mander's (M1)", "Mander's (M2)"))
+  setNames(c('symbol', "Pearson's", "Manders (M1)", "Manders (M2)"))
 
 g2 <- df %>%
   gather(type, value, -symbol) %>%
