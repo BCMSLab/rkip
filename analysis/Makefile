@@ -25,11 +25,13 @@ all: dir_tree \
 	$(FIG_DIR)/preservation_ranks.png \
 	$(FIG_DIR)/preservation_zsummary.png \
 	$(FIG_DIR)/sft_power.png \
+	$(FIG_DIR)/chip_binding.png \
 	$(TAB_DIR)/datasets.tex \
 	$(TAB_DIR)/go_genes.tex \
 	$(TAB_DIR)/module_members.tex \
 	$(TAB_DIR)/peb_interactions.tex \
 	$(TAB_DIR)/previously_reported.tex \
+	$(TAB_DIR)/chip_sources.tex \
 	clean
 
 # install/update the functions

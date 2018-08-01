@@ -6,7 +6,7 @@ library(cowplot)
 
 # load data
 if(!file.exists('data/image_supp.png')) {
-  download.file('https://ndownloader.figshare.com/files/12299936',
+  download.file('https://ndownloader.figshare.com/files/12556949',
                 destfile = 'data/image_supp.png')
 }
 
@@ -68,3 +68,4 @@ plot_grid(g1, g2,
   ggsave(plot = .,
          filename = 'manuscript/figures/colocalization_supp.png',
          width = 18, height = 18, units = 'cm')
+

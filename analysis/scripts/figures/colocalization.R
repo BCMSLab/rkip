@@ -6,7 +6,7 @@ library(cowplot)
 
 # load data
 if(!file.exists('data/image.png')) {
-  download.file('https://ndownloader.figshare.com/files/12293744',
+  download.file('https://ndownloader.figshare.com/files/12556946',
                 destfile = 'data/image.png')
 }
 
