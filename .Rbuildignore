@@ -4,3 +4,6 @@
 ^docker/$
 ^\.travis\.yml$
 ^codecov\.yml$
+^analysis/data/.*$
+^analysis/log/.*$
+^analysis/manuscript/.*$

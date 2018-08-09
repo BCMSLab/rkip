@@ -25,13 +25,11 @@ all: dir_tree \
 	$(FIG_DIR)/preservation_ranks.png \
 	$(FIG_DIR)/preservation_zsummary.png \
 	$(FIG_DIR)/sft_power.png \
-	$(FIG_DIR)/chip_binding.png \
 	$(TAB_DIR)/datasets.tex \
 	$(TAB_DIR)/go_genes.tex \
 	$(TAB_DIR)/module_members.tex \
 	$(TAB_DIR)/peb_interactions.tex \
 	$(TAB_DIR)/previously_reported.tex \
-	$(TAB_DIR)/chip_sources.tex \
 	clean
 
 # install/update the functions
@@ -61,10 +59,6 @@ $(TAB_DIR)/%.tex: $(TAB_SRC)/%.R $(DATA)/rkip_wgcna.rda
 # generate figures
 $(FIG_DIR)/%.png: $(FIG_SRC)/%.R $(DATA)/rkip_wgcna.rda
 	R CMD BATCH $(R_OPT) $< $(LOG)/$(<F).Rout
-
-# generate workflow
-#$(FIG_DIR)/workflow.png: $(FIG_SRC)/workflow.dot
-#	dot -Tpng $(FIG_SRC)/workflow.dot -o $(FIG_DIR)/workflow.png
 
 # clean up
 .PHONY: clean
