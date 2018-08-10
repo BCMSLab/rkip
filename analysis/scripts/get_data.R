@@ -121,5 +121,5 @@ if(!file.exists('data/string_interactions.tsv')) {
 #}
 
 if(!file.exists('data/cRegulome.db')) {
-  get_db(test = FALSE)
+  get_db(test = FALSE, destfile = 'data/cRegulome.db.gz')
 }
