@@ -1,5 +1,4 @@
-[![Travis-CI Build Status](https://travis-ci.org/MahShaaban/rkip.svg?branch=master)](https://travis-ci.org/MahShaaban/rkip)
-[![Coverage Status](https://img.shields.io/codecov/c/github/MahShaaban/rkip/master.svg)](https://codecov.io/github/MahShaaban/rkip?branch=master)
+[![Build Status](https://travis-ci.org/BCMSLab/rkip.svg?branch=master)](https://travis-ci.org/BCMSLab/rkip)
 
 # rkip
 
@@ -10,8 +9,8 @@ Data, analysis scripts and output of the analysis of the RKIP, autophagy and EMT
 The analysis was run on a [docker](https://hub.docker.com/r/bcmslab/bioc_wgcna/) image based on the the latest **bioconductor/release\_base2**. Other R packages were added to the image and were made available as an image that can be obtained and launched on any local machine running [docker](https://hub.docker.com/r/bcmslab/bioc_wgcna/).
 
 ```bash
-$ docker pull bcmslab/bioc_wgcna:20180630
-$ docker run -it bcmslab/bioc_wgcna:20180630 bash
+$ docker pull bcmslab/rkip
+$ docker run -it bcmslab/rkip bash
 ```
 
 ## Obtaining the source code
@@ -34,7 +33,7 @@ $ git clone http://github.com/BCMSLab/rkip
 
 ## Running the analysis
 
-The analysis scripts is organized to be ran using a single [make](https://www.gnu.org/software/make/) command. This will first load the necessary functions and run the main analysis and save the data in an R object `rkip_wgcna.rda`. This will be used to generate the figures and graphs. In addition, a log file is generated in the sub-folder 'log/' for each script which can be used for troubleshooting.
+The analysis scripts is organized to be ran using a single [make](https://www.gnu.org/software/make/) command. This will first load the necessary functions and run the main analysis and save the data in an R object `data/rkip_wgcna.rda`. This will be used to generate the figures and graphs. In addition, a log file is generated in the sub-folder 'log/' for each script which can be used for troubleshooting.
 
 To do that, the `make` command should be invoked from withing the `analysis/` sub-folder.
 

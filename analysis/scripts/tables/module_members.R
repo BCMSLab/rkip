@@ -22,8 +22,8 @@ data_frame(term = c('epithelial to mesenchymal transition',
   summarise(gene = paste(unique(symbol), collapse = ', ')) %>%
   spread(term, gene) %>%
   setNames(c('Module', 'Autophagy',
-             '\\hl{Epithelial to Mesenchymal Transition}',
-             '\\hl{Phosphatidylethanolamine Binding}')) %>%
+             'Epithelial to Mesenchymal Transition',
+             'Phosphatidylethanolamine Binding')) %>%
   xtable(caption = 'Gene members in different modules/colors.',
          label = 'tab:module_members',
          align = 'clp{.4\\textwidth}p{.2\\textwidth}p{.25\\textwidth}') %>%
